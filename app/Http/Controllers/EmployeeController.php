@@ -81,9 +81,7 @@ class EmployeeController extends Controller
 
        $employee->update($request->all());
        
-       return response([
-        'success' => 'Updated data successfully.'
-       ], Response::HTTP_OK);
+       return response(['data' => $employee], Response::HTTP_OK);
     }
 
     /**
