@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmployeeRequest;
 use App\Model\Employee;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class EmployeeController extends Controller
 {
@@ -14,18 +16,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        return Employee::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +28,26 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required', 
+            'email' => 'required|unique:employees|email', 
+            'date_of_joining' => 'required', 
+            'current_ctc' => 'required', 
+            'date_of_relieving' => 'required',
+        ]);
+
+        $employee = new Employee;
+
+        $employee->name = $request->name;
+        $employee->email = $request->email;
+        $employee->date_of_joining = $request->date_of_joining;
+        $employee->current_ctc = $request->current_ctc;
+        $employee->date_of_relieving = $request->date_of_relieving;
+        $employee->save();
+
+        return response([
+            'success' => 'Data inserted successfully.',
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -46,20 +58,10 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return $employee;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\Employee  $employee
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Employee $employee)
-    {
-        //
-    }
-
+ 
     /**
      * Update the specified resource in storage.
      *
@@ -69,7 +71,19 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $request->validate([
+            'name' => 'required', 
+            'email' => 'required|unique:employees|email', 
+            'date_of_joining' => 'required', 
+            'current_ctc' => 'required', 
+            'date_of_relieving' => 'required',
+        ]);
+
+       $employee->update($request->all());
+       
+       return response([
+        'success' => 'Updated data successfully.'
+       ], Response::HTTP_OK);
     }
 
     /**
@@ -80,6 +94,7 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
