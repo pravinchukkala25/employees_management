@@ -32,8 +32,7 @@ class EmployeeController extends Controller
             'name' => 'required', 
             'email' => 'required|unique:employees|email', 
             'date_of_joining' => 'required', 
-            'current_ctc' => 'required', 
-            'date_of_relieving' => 'required',
+            'current_ctc' => 'required',
         ]);
 
         $employee = new Employee;
@@ -73,10 +72,9 @@ class EmployeeController extends Controller
     {
         $request->validate([
             'name' => 'required', 
-            'email' => 'required|unique:employees|email', 
+            'email' => 'required|email', 
             'date_of_joining' => 'required', 
-            'current_ctc' => 'required', 
-            'date_of_relieving' => 'required',
+            'current_ctc' => 'required',
         ]);
 
        $employee->update($request->all());
