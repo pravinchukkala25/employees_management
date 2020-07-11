@@ -72,7 +72,7 @@ class EmployeeController extends Controller
     {
         $request->validate([
             'name' => 'required', 
-            'email' => 'required|email', 
+            'email' => 'required|email|unique:employees,email,'.$employee->id, 
             'date_of_joining' => 'required', 
             'current_ctc' => 'required',
         ]);
